@@ -1,0 +1,17 @@
+﻿body {
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+li {
+    display: inline;
+    position: relative;
+}
+ul ul {
+    position: absolute;
+    display: none;
+}
+li:hover ul {
+    display: block;
+}

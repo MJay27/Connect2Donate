@@ -1,0 +1,74 @@
+﻿@model Connect2Donate.Models.RequestViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details And Responses</h2>
+
+<div>
+    <h4>Request Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RequestId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TblUsers.FirstOrDefault().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TblUsers.FirstOrDefault().Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TblUsers.FirstOrDefault().TblContacts.FirstOrDefault().Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Responses.FirstOrDefault().Comment)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Responses)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TblUser.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TblUser.Email)
+        </td>
+        <td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TblUser.TblContacts.FirstOrDefault().Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+
+    </tr>
+    }
+
+</table>
+

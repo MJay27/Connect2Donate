@@ -1,0 +1,60 @@
+﻿@model Connect2Donate.Models.RegistrationDataModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Account Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+        <dt>
+           <label>Address</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address.Line1),
+
+            @Html.DisplayFor(model => model.Address.Area),
+
+            @Html.DisplayFor(model => model.Address.Province)
+
+            @Html.DisplayFor(model => model.Address.PostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Number)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.UserType)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.User.UserId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

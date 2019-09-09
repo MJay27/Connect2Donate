@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblAddress">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Line1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Area" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Province" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblContact">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblRequests">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblResponses">
+          <Key>
+            <PropertyRef Name="ResponseId" />
+          </Key>
+          <Property Name="ResponseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblUsers">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Hash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ValidateEmail" Type="bit" Nullable="false" />
+          <Property Name="UserType" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TblAddress_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+          <End Role="TblAddress" Type="Self.TblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblAddress">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblContact_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+          <End Role="TblContact" Type="Self.TblContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblContact">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRequests_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+          <End Role="TblRequests" Type="Self.TblRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblRequests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblResponses_TblRequests">
+          <End Role="TblRequests" Type="Self.TblRequests" Multiplicity="1" />
+          <End Role="TblResponses" Type="Self.TblResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRequests">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="TblResponses">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblResponses_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+          <End Role="TblResponses" Type="Self.TblResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblResponses">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelsStoreContainer">
+          <EntitySet Name="TblAddress" EntityType="Self.TblAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblContact" EntityType="Self.TblContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblRequests" EntityType="Self.TblRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblResponses" EntityType="Self.TblResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUsers" EntityType="Self.TblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TblAddress_TblUsers" Association="Self.FK_TblAddress_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblAddress" EntitySet="TblAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblContact_TblUsers" Association="Self.FK_TblContact_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblContact" EntitySet="TblContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRequests_TblUsers" Association="Self.FK_TblRequests_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblRequests" EntitySet="TblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblResponses_TblRequests" Association="Self.FK_TblResponses_TblRequests">
+            <End Role="TblRequests" EntitySet="TblRequests" />
+            <End Role="TblResponses" EntitySet="TblResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblResponses_TblUsers" Association="Self.FK_TblResponses_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblResponses" EntitySet="TblResponses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblAddress">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Line1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Area" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Province" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblUser" Relationship="Self.FK_TblAddress_TblUsers" FromRole="TblAddress" ToRole="TblUsers" />
+        </EntityType>
+        <EntityType Name="TblContact">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblUser" Relationship="Self.FK_TblContact_TblUsers" FromRole="TblContact" ToRole="TblUsers" />
+        </EntityType>
+        <EntityType Name="TblRequest">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblUser" Relationship="Self.FK_TblRequests_TblUsers" FromRole="TblRequests" ToRole="TblUsers" />
+          <NavigationProperty Name="TblResponses" Relationship="Self.FK_TblResponses_TblRequests" FromRole="TblRequests" ToRole="TblResponses" />
+        </EntityType>
+        <EntityType Name="TblRespons">
+          <Key>
+            <PropertyRef Name="ResponseId" />
+          </Key>
+          <Property Name="ResponseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TblRequest" Relationship="Self.FK_TblResponses_TblRequests" FromRole="TblResponses" ToRole="TblRequests" />
+          <NavigationProperty Name="TblUser" Relationship="Self.FK_TblResponses_TblUsers" FromRole="TblResponses" ToRole="TblUsers" />
+        </EntityType>
+        <EntityType Name="TblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ValidateEmail" Type="Boolean" Nullable="false" />
+          <Property Name="UserType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TblAddresses" Relationship="Self.FK_TblAddress_TblUsers" FromRole="TblUsers" ToRole="TblAddress" />
+          <NavigationProperty Name="TblContacts" Relationship="Self.FK_TblContact_TblUsers" FromRole="TblUsers" ToRole="TblContact" />
+          <NavigationProperty Name="TblRequests" Relationship="Self.FK_TblRequests_TblUsers" FromRole="TblUsers" ToRole="TblRequests" />
+          <NavigationProperty Name="TblResponses" Relationship="Self.FK_TblResponses_TblUsers" FromRole="TblUsers" ToRole="TblResponses" />
+          <Property Name="Hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_TblAddress_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUser" Multiplicity="1" />
+          <End Role="TblAddress" Type="Self.TblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblAddress">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblContact_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUser" Multiplicity="1" />
+          <End Role="TblContact" Type="Self.TblContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblContact">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRequests_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUser" Multiplicity="1" />
+          <End Role="TblRequests" Type="Self.TblRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblRequests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblResponses_TblRequests">
+          <End Role="TblRequests" Type="Self.TblRequest" Multiplicity="1" />
+          <End Role="TblResponses" Type="Self.TblRespons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRequests">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="TblResponses">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblResponses_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUser" Multiplicity="1" />
+          <End Role="TblResponses" Type="Self.TblRespons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblResponses">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="C2DConetxt" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblAddresses" EntityType="Self.TblAddress" />
+          <EntitySet Name="TblContacts" EntityType="Self.TblContact" />
+          <EntitySet Name="TblRequests" EntityType="Self.TblRequest" />
+          <EntitySet Name="TblResponses" EntityType="Self.TblRespons" />
+          <EntitySet Name="TblUsers" EntityType="Self.TblUser" />
+          <AssociationSet Name="FK_TblAddress_TblUsers" Association="Self.FK_TblAddress_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblAddress" EntitySet="TblAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblContact_TblUsers" Association="Self.FK_TblContact_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblContact" EntitySet="TblContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRequests_TblUsers" Association="Self.FK_TblRequests_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblRequests" EntitySet="TblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblResponses_TblRequests" Association="Self.FK_TblResponses_TblRequests">
+            <End Role="TblRequests" EntitySet="TblRequests" />
+            <End Role="TblResponses" EntitySet="TblResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblResponses_TblUsers" Association="Self.FK_TblResponses_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblResponses" EntitySet="TblResponses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelsStoreContainer" CdmEntityContainer="C2DConetxt">
+          <EntitySetMapping Name="TblAddresses">
+            <EntityTypeMapping TypeName="Models.TblAddress">
+              <MappingFragment StoreEntitySet="TblAddress">
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Line1" ColumnName="Line1" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblContacts">
+            <EntityTypeMapping TypeName="Models.TblContact">
+              <MappingFragment StoreEntitySet="TblContact">
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblRequests">
+            <EntityTypeMapping TypeName="Models.TblRequest">
+              <MappingFragment StoreEntitySet="TblRequests">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblResponses">
+            <EntityTypeMapping TypeName="Models.TblRespons">
+              <MappingFragment StoreEntitySet="TblResponses">
+                <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUsers">
+            <EntityTypeMapping TypeName="Models.TblUser">
+              <MappingFragment StoreEntitySet="TblUsers">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ValidateEmail" ColumnName="ValidateEmail" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

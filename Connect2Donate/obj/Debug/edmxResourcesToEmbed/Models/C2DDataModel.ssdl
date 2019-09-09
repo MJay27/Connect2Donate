@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TblAddress">
+    <Key>
+      <PropertyRef Name="AddressId" />
+    </Key>
+    <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Line1" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Area" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="Province" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="PostalCode" Type="nvarchar" MaxLength="6" Nullable="false" />
+    <Property Name="Country" Type="nvarchar" MaxLength="6" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblContact">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblRequests">
+    <Key>
+      <PropertyRef Name="RequestId" />
+    </Key>
+    <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblResponses">
+    <Key>
+      <PropertyRef Name="ResponseId" />
+    </Key>
+    <Property Name="ResponseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblUsers">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Hash" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ValidateEmail" Type="bit" Nullable="false" />
+    <Property Name="UserType" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_TblAddress_TblUsers">
+    <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+    <End Role="TblAddress" Type="Self.TblAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUsers">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TblAddress">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblContact_TblUsers">
+    <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+    <End Role="TblContact" Type="Self.TblContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUsers">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TblContact">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblRequests_TblUsers">
+    <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+    <End Role="TblRequests" Type="Self.TblRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUsers">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TblRequests">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblResponses_TblRequests">
+    <End Role="TblRequests" Type="Self.TblRequests" Multiplicity="1" />
+    <End Role="TblResponses" Type="Self.TblResponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblRequests">
+        <PropertyRef Name="RequestId" />
+      </Principal>
+      <Dependent Role="TblResponses">
+        <PropertyRef Name="RequestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblResponses_TblUsers">
+    <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+    <End Role="TblResponses" Type="Self.TblResponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUsers">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TblResponses">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelsStoreContainer">
+    <EntitySet Name="TblAddress" EntityType="Self.TblAddress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblContact" EntityType="Self.TblContact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblRequests" EntityType="Self.TblRequests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblResponses" EntityType="Self.TblResponses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblUsers" EntityType="Self.TblUsers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TblAddress_TblUsers" Association="Self.FK_TblAddress_TblUsers">
+      <End Role="TblUsers" EntitySet="TblUsers" />
+      <End Role="TblAddress" EntitySet="TblAddress" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblContact_TblUsers" Association="Self.FK_TblContact_TblUsers">
+      <End Role="TblUsers" EntitySet="TblUsers" />
+      <End Role="TblContact" EntitySet="TblContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblRequests_TblUsers" Association="Self.FK_TblRequests_TblUsers">
+      <End Role="TblUsers" EntitySet="TblUsers" />
+      <End Role="TblRequests" EntitySet="TblRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblResponses_TblRequests" Association="Self.FK_TblResponses_TblRequests">
+      <End Role="TblRequests" EntitySet="TblRequests" />
+      <End Role="TblResponses" EntitySet="TblResponses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblResponses_TblUsers" Association="Self.FK_TblResponses_TblUsers">
+      <End Role="TblUsers" EntitySet="TblUsers" />
+      <End Role="TblResponses" EntitySet="TblResponses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
