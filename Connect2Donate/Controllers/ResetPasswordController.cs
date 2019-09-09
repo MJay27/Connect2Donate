@@ -51,11 +51,10 @@ namespace Connect2Donate.Controllers
                         //Email and userId not matched
                         //Entered wrong or some other user's email
 
-                        }
+                    }
               
                 }
             }
-
             return View(tblUser);
         }
 
