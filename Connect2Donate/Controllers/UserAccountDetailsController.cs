@@ -13,7 +13,7 @@ namespace Connect2Donate.Controllers
 {
     public class UserAccountDetailsController : Controller
     {
-        private C2DConetxt db = new C2DConetxt();
+        private C2DContext db = new C2DContext();
 
      
 

@@ -11,7 +11,7 @@ namespace Connect2Donate.Controllers
 {
     public class HomeController : Controller
     {
-        C2DConetxt db = new C2DConetxt();
+        C2DContext db = new C2DContext();
         public ActionResult Index()
         {
             return View();

@@ -19,7 +19,7 @@ namespace Connect2Donate.Controllers
 {
     public class UserRegistrationController : Controller
     {
-        private C2DConetxt db = new C2DConetxt();
+        private C2DContext db = new C2DContext();
 
         // GET: UserRegistration
         public ActionResult Index()
@@ -67,8 +67,10 @@ namespace Connect2Donate.Controllers
                 db.TblContacts.Add(tblContact);
                 await db.SaveChangesAsync();
 
+               
+               var sysData = from data in db.TblSysCredentials select data;
                 //Send Confirmation EMail
-                Email.Email.BuildEmailTemplate(tblUser.UserId, tblUser.Email);
+                Email.Email.BuildEmailTemplate(tblUser.UserId, tblUser.Email, sysData.FirstOrDefault().Email, sysData.FirstOrDefault().Password);
                 //BuildEmailTemplate(tblUser.UserId);
                 return RedirectToAction("Index", "Home");
             }

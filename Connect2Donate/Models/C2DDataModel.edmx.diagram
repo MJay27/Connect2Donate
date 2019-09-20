@@ -15,6 +15,7 @@
         <AssociationConnector Association="Models.FK_TblRequests_TblUsers" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_TblResponses_TblRequests" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_TblResponses_TblUsers" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Models.TblSysCredential" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

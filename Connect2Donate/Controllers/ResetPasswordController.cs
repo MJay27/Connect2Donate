@@ -12,12 +12,12 @@ namespace Connect2Donate.Controllers
 {
     public class ResetPasswordController : Controller
     {
-        C2DConetxt db = new C2DConetxt();
+        C2DContext db = new C2DContext();
         // GET: ResetPassword
         public ActionResult Index()
         {
-           
-                return View();
+
+            return View();
         }
 
         //POST: Edit
@@ -28,51 +28,56 @@ namespace Connect2Donate.Controllers
             if (ModelState.IsValid)
             {
                 var email = from data in db.TblUsers where data.Email.Equals(tblUser.Email) select data.Email;
-                if (Session["UserId"] == null && email.FirstOrDefault() !=null)
+                var sysData = from data in db.TblSysCredentials select data;
+                if (Session["UserId"] == null && email.FirstOrDefault() != null)
                 {
-                    Email.Email.BuildEmailTemplate(email.FirstOrDefault());
+                    Email.Email.BuildEmailTemplate(email.FirstOrDefault(), sysData.FirstOrDefault().Email, sysData.FirstOrDefault().Password);
+                    ViewBag.SendEmail = "EmailSent";
+                    return RedirectToAction("ForgetPassword");
                 }
                 else
-                { 
-                List<string> encryptedPasswordAndSalt = Password.Ecrypt(tblUser.Password);
+                {
+                    List<string> encryptedPasswordAndSalt = Password.Ecrypt(tblUser.Password);
                     TblUser user = (from x in db.TblUsers
-                                          where x.Email == tblUser.Email
-                                          select x).FirstOrDefault();
+                                    where x.Email == tblUser.Email
+                                    select x).FirstOrDefault();
                     if (user.UserId == Convert.ToInt32(Session["UserId"]))
                     {
                         user.Salt = encryptedPasswordAndSalt[0];
                         user.Hash = encryptedPasswordAndSalt[1];
                         await db.SaveChangesAsync();
                         Session["UserId"] = null;
-                        return RedirectToAction("Index","Home");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
-                    { 
+                    {
                         //Email and userId not matched
                         //Entered wrong or some other user's email
 
                     }
-              
+
                 }
             }
             return View(tblUser);
         }
 
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
         public ActionResult ResetPasswordFromEmail(string email)
         {
             ViewBag.email = email;
             return View();
         }
-        [HttpPost]
-        public async Task<JsonResult> ResetPasswordFromEmail(string email,string enteredPassword)
+        
+        public async Task<JsonResult> ResetPasswordUsingEmail(string email, string enteredPassword)
         {
 
             TblUser user = db.TblUsers.Where(x => x.Email == email).FirstOrDefault();
             List<string> encryptedPasswordAndSalt = Password.Ecrypt(enteredPassword);
             user.Salt = encryptedPasswordAndSalt[0];
-            user.Hash = encryptedPasswordAndSalt[1];
-            db.Entry(user).State = EntityState.Modified;
-            user.ValidateEmail = true;
+            user.Hash = encryptedPasswordAndSalt[1];           
             await db.SaveChangesAsync();
 
             var msg = "Your Password Is Successfully Changed!";

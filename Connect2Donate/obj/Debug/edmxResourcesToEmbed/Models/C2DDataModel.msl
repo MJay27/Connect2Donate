@@ -57,5 +57,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TblSysCredentials">
+      <EntityTypeMapping TypeName="Models.TblSysCredential">
+        <MappingFragment StoreEntitySet="TblSysCredentials">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

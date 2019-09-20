@@ -39,6 +39,16 @@
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DBConnect2Donate.dbo.TblSysCredentials' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TblSysCredentials">
+    <Key>
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
   <EntityType Name="TblUsers">
     <Key>
       <PropertyRef Name="UserId" />
@@ -117,6 +127,12 @@
     <EntitySet Name="TblRequests" EntityType="Self.TblRequests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TblResponses" EntityType="Self.TblResponses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TblUsers" EntityType="Self.TblUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblSysCredentials" EntityType="Self.TblSysCredentials" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TblSysCredentials].[Email] AS [Email], 
+    [TblSysCredentials].[Password] AS [Password]
+    FROM [dbo].[TblSysCredentials] AS [TblSysCredentials]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_TblAddress_TblUsers" Association="Self.FK_TblAddress_TblUsers">
       <End Role="TblUsers" EntitySet="TblUsers" />
       <End Role="TblAddress" EntitySet="TblAddress" />

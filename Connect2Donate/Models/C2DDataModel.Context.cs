@@ -13,9 +13,9 @@ namespace Connect2Donate.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class C2DConetxt : DbContext
+    public partial class C2DContext : DbContext
     {
-        public C2DConetxt()
+        public C2DContext()
             : base("name=C2DConetxt")
         {
         }
@@ -30,5 +30,6 @@ namespace Connect2Donate.Models
         public virtual DbSet<TblRequest> TblRequests { get; set; }
         public virtual DbSet<TblRespons> TblResponses { get; set; }
         public virtual DbSet<TblUser> TblUsers { get; set; }
+        public virtual DbSet<TblSysCredential> TblSysCredentials { get; set; }
     }
 }

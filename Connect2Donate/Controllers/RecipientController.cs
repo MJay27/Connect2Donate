@@ -12,7 +12,7 @@ namespace Connect2Donate.Controllers
 {
     public class RecipientController : Controller
     {
-        C2DConetxt db = new C2DConetxt();
+        C2DContext db = new C2DContext();
         // GET: Recipient
         public async Task<ActionResult> Index()
         {

@@ -5,34 +5,37 @@ using System.Net.Mail;
 using System.Text;
 using System.Web;
 using System.Web.Hosting;
+using Connect2Donate.Models;
 
 namespace Connect2Donate.Email
 {
     public class Email
     {
-        public static void BuildEmailTemplate(string regEmail)
+       
+        public static void BuildEmailTemplate(string regEmail, string sysEmail, string sysPassword)
         {
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplet/" + "EmailResetPasswordBody" + ".cshtml"));
 
             var url = "http://localhost:28871/" + "ResetPassword/ResetPasswordFromEmail?regEmail=" + regEmail;
             body = body.Replace("@ViewBag.ConfirmationLink", url);
             body = body.ToString();
-            BuildEmailTemplate("Password Change Request", body, regEmail);
+            BuildEmailTemplate("Password Change Request", body, regEmail, sysEmail, sysPassword);
         }
-        public static void BuildEmailTemplate(int regId, string regEmail)
+        public static void BuildEmailTemplate(int regId, string regEmail, string sysEmail, string sysPassword)
         {
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplet/" + "EmailBody" + ".cshtml"));
             
             var url = "http://localhost:28871/" + "UserRegistration/Confirm?regId=" + regId;
             body = body.Replace("@ViewBag.ConfirmationLink", url);
             body = body.ToString();
-            BuildEmailTemplate("Your account is successfully created!", body, regEmail);
+            BuildEmailTemplate("Your account is successfully created!", body, regEmail, sysEmail, sysPassword);
         }
 
-        public static void BuildEmailTemplate(string subjectText, string bodyText, string sendTo)
+        public static void BuildEmailTemplate(string subjectText, string bodyText, string sendTo, string sysEmail, string sysPassowrd)
         {
             string from, to, subject, bcc, cc, body;
-            from = "mjay2911@gmail.com";
+            
+            from = sysEmail;
             to = sendTo.Trim();
             subject = subjectText;
             bcc = "";
@@ -55,10 +58,10 @@ namespace Connect2Donate.Email
             mail.Subject = subject;
             mail.Body = body;
             mail.IsBodyHtml = true;
-            SendEmail(mail);
+            SendEmail(mail,sysEmail,sysPassowrd);
         }
 
-        private static void SendEmail(MailMessage mail)
+        private static void SendEmail(MailMessage mail, string sysEmail, string sysPassword)
         {
             SmtpClient client = new SmtpClient();
             client.Host = "smtp.gmail.com";
@@ -66,14 +69,17 @@ namespace Connect2Donate.Email
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Credentials = new System.Net.NetworkCredential("mjay2911@gmail.com", "Jexumgmail2796$");
-            try
+            if (sysEmail != null && sysPassword != null)
             {
-                client.Send(mail);
-            }
-            catch (Exception e)
-            {
-                throw e;
+                client.Credentials = new System.Net.NetworkCredential(sysEmail, sysPassword);
+                try
+                {
+                    client.Send(mail);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
         }
       

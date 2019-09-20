@@ -147,5 +147,14 @@
       <End Role="TblUsers" EntitySet="TblUsers" />
       <End Role="TblResponses" EntitySet="TblResponses" />
     </AssociationSet>
+    <EntitySet Name="TblSysCredentials" EntityType="Models.TblSysCredential" />
   </EntityContainer>
+  <EntityType Name="TblSysCredential">
+    <Key>
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

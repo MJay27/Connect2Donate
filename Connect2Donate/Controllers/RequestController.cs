@@ -13,7 +13,7 @@ namespace Connect2Donate.Controllers
 {
     public class RequestController : Controller
     {
-        private C2DConetxt db = new C2DConetxt();
+        private C2DContext db = new C2DContext();
 
         // GET: Request
         public async Task<ActionResult> Index()
@@ -134,7 +134,7 @@ namespace Connect2Donate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-             var responsesList =from responses in db.TblResponses where responses.RequestId.Equals(id) select responses;
+            var responsesList =from responses in db.TblResponses where responses.RequestId.Equals(id) select responses;
             RequestViewModel requestViewModel = new RequestViewModel();
             requestViewModel.Responses= await responsesList.ToListAsync();
             foreach (TblRespons response in requestViewModel.Responses)
