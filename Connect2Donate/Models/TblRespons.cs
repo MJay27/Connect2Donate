@@ -11,15 +11,12 @@ namespace Connect2Donate.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TblRespons
     {
         public int ResponseId { get; set; }
         public int RequestId { get; set; }
         public int UserId { get; set; }
-
-        [Required(ErrorMessage = "Comment is required.")]
         public string Comment { get; set; }
     
         public virtual TblRequest TblRequest { get; set; }

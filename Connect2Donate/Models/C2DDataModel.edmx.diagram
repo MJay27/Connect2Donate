@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="34c7e721c60c4db3b109ad0a9fa40647" Name="Diagram1">
+      <Diagram DiagramId="34c7e721c60c4db3b109ad0a9fa40647" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="Models.TblAddress" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.TblContact" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.TblRequest" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
@@ -15,7 +15,7 @@
         <AssociationConnector Association="Models.FK_TblRequests_TblUsers" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_TblResponses_TblRequests" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_TblResponses_TblUsers" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Models.TblSysCredential" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Models.TblSysCredential" Width="1.5" PointX="6" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

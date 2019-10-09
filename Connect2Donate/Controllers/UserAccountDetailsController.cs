@@ -15,7 +15,7 @@ namespace Connect2Donate.Controllers
     {
         private C2DContext db = new C2DContext();
 
-     
+
 
         // GET: UserAccountDetails/Details/5
         public async Task<ActionResult> Details()
@@ -53,7 +53,7 @@ namespace Connect2Donate.Controllers
             var address = from data in db.TblAddresses where (data.UserId == id) select data;
             dataModel.Address = address.FirstOrDefault();
 
-            var contact = from data in db.TblContacts where (data.UserId ==id ) select data;
+            var contact = from data in db.TblContacts where (data.UserId == id) select data;
             dataModel.Contact = contact.FirstOrDefault();
             if (dataModel == null)
             {
@@ -73,8 +73,8 @@ namespace Connect2Donate.Controllers
             {
                 int id = Convert.ToInt32(Session["UserId"]);
                 TblAddress address = (from x in db.TblAddresses
-                              where x.UserId == id
-                              select x).FirstOrDefault();
+                                      where x.UserId == id
+                                      select x).FirstOrDefault();
                 address.Line1 = dataModel.Address.Line1;
                 address.Area = dataModel.Address.Area;
                 address.Province = dataModel.Address.Province;
@@ -87,8 +87,8 @@ namespace Connect2Donate.Controllers
                 contact.Number = dataModel.Contact.Number;
                 await db.SaveChangesAsync();
                 TblUser user = (from x in db.TblUsers
-                                      where x.UserId == id
-                                      select x).FirstOrDefault();
+                                where x.UserId == id
+                                select x).FirstOrDefault();
                 user.Name = dataModel.User.Name;
 
                 await db.SaveChangesAsync();

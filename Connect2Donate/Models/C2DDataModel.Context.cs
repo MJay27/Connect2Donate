@@ -13,9 +13,9 @@ namespace Connect2Donate.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class C2DContext : DbContext
+    public partial class C2DConetxt : DbContext
     {
-        public C2DContext()
+        public C2DConetxt()
             : base("name=C2DConetxt")
         {
         }

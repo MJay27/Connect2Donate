@@ -37,13 +37,22 @@ namespace Connect2Donate.Controllers
         {
             if (ModelState.IsValid)
             {
+                var emails = from data in db.TblUsers select data.Email;
+                foreach (string email in emails)
+                {
+                    if (email.Equals(registrationDataModel.Email))
+                    {
+
+                        return Content("<script language='javascript' type='text/javascript'>alert('Email is already in use! User other Email');$.ajax({url: '/Home/Index',success: function(data) {alert(data);}});</script >");
+                    }
+                }
                 TblUser tblUser = new TblUser();
                 tblUser.Name = registrationDataModel.Name;
                 tblUser.Email = registrationDataModel.Email;
                 tblUser.UserType = registrationDataModel.UserType.ToString();
                 tblUser.Password = registrationDataModel.Password;
                 tblUser.ValidateEmail = false;
-               
+
                 List<string> encryptedPasswordAndSalt = Password.Ecrypt(tblUser.Password);
                 tblUser.Salt = encryptedPasswordAndSalt[0];
                 tblUser.Hash = encryptedPasswordAndSalt[1];
@@ -67,8 +76,8 @@ namespace Connect2Donate.Controllers
                 db.TblContacts.Add(tblContact);
                 await db.SaveChangesAsync();
 
-               
-               var sysData = from data in db.TblSysCredentials select data;
+
+                var sysData = from data in db.TblSysCredentials select data;
                 //Send Confirmation EMail
                 Email.Email.BuildEmailTemplate(tblUser.UserId, tblUser.Email, sysData.FirstOrDefault().Email, sysData.FirstOrDefault().Password);
                 //BuildEmailTemplate(tblUser.UserId);
@@ -76,117 +85,24 @@ namespace Connect2Donate.Controllers
             }
             return View();
         }
-        private void BuildEmailTemplate(int regId)
-        {
-            string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplet/" + "EmailBody" + ".cshtml"));
-            var regInfo = db.TblUsers.Where(x => x.UserId == regId).FirstOrDefault();
-            var url = "http://localhost:28871/" + "UserRegistration/Confirm?regId=" + regId;
-            body = body.Replace("@ViewBag.ConfirmationLink", url);
-            body = body.ToString();
-            BuildEmailTemplate("Your account is successfully created!", body, regInfo.Email);
-        }
-
-        public static void BuildEmailTemplate(string subjectText, string bodyText, string sendTo)
-        {
-            string from, to, subject, bcc, cc, body;
-            from = "mjay2911@gmail.com";
-            to = sendTo.Trim();
-            subject = subjectText;
-            bcc = "";
-            cc = "";
-            StringBuilder sb = new StringBuilder();
-            sb.Append(bodyText);
-            body = sb.ToString();
-
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(from);
-            mail.To.Add(new MailAddress(to));
-            if (!string.IsNullOrEmpty(bcc))
-            {
-                mail.To.Add(new MailAddress(bcc));
-            }
-            if (!string.IsNullOrEmpty(cc))
-            {
-                mail.To.Add(new MailAddress(cc));
-            }
-            mail.Subject = subject;
-            mail.Body = body;
-            mail.IsBodyHtml = true;
-            SendEmail(mail);
-        }
-
-        private static void SendEmail(MailMessage mail)
-        {
-            SmtpClient client = new SmtpClient();
-            client.Host = "smtp.gmail.com";
-            client.Port = 587;
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Credentials = new System.Net.NetworkCredential("mjay2911@gmail.com", "Jexumgmail2796$");
-            try
-            {
-                client.Send(mail);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+       
         public ActionResult Confirm(int regId)
         {
             ViewBag.regId = regId;
             return View();
         }
 
-        public async Task<JsonResult> RegisterConfirm([Bind(Include = "UserType")]int regId)
+        public JsonResult RegisterConfirm([Bind(Include = "UserType")]int regId)
         {
 
-            TblUser user = db.TblUsers.Where(x => x.UserId == regId).FirstOrDefault();
-            db.Entry(user).State = EntityState.Modified;
+            var userData = from data in db.TblUsers where data.UserId.Equals(regId) select data;
+            TblUser user = userData.FirstOrDefault();
+            // db.Entry(user).State = EntityState.Modified;
             user.ValidateEmail = true;
-            await db.SaveChangesAsync();
-
+            //db.TblUsers.Add(user);
+            db.SaveChanges();
             var msg = "Your Email Is Verified!Visit Website For Accessing Your Account";
             return Json(msg, JsonRequestBehavior.AllowGet);
-        }
-
-        // Password Encryption
-        public List<string> EcryptPassword(string plaintextpassword)
-        {
-            byte[] salt = new byte[16];
-
-            /*Generating Salt*/
-            try
-            {
-                using (RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider())
-                {
-                    csprng.GetBytes(salt);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(
-                    "Random number generator not available.",
-                    ex
-                );
-            }
-
-            /*Generating Hash*/
-            var pbkdf2 = new Rfc2898DeriveBytes(plaintextpassword, salt, 10000);
-
-            byte[] hash = pbkdf2.GetBytes(20);
-
-            byte[] hashBytes = new byte[36];
-
-            Array.Copy(salt, 0, hashBytes, 0, 16);
-            Array.Copy(hash, 0, hashBytes, 16, 20);
-
-            List<string> saltAndHash = new List<string>();
-            saltAndHash.Add(Convert.ToBase64String(salt));
-            saltAndHash.Add(Convert.ToBase64String(hashBytes));
-            return saltAndHash;
-
         }
 
         protected override void Dispose(bool disposing)

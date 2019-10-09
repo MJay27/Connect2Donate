@@ -39,14 +39,20 @@ namespace Connect2Donate.Controllers
             byte[] storedSaltBytes = new byte[16];
             var userEmails = from data in db.TblUsers select data.Email;
 
+            if (enteredEmail == "" || formCollection["Password"] == "")
+            {
+                return Content("<script language='javascript' type='text/javascript'>alert('Email and Password must not be empty!')</script >");
+            }
             foreach (string email in userEmails)
             {
                 if (email.Equals(enteredEmail))
                 {
-                    var emailValidation = from data in db.TblUsers where data.Email.Equals(email) select data.ValidateEmail;
-                    if (!emailValidation.FirstOrDefault())
+                    var user = from data in db.TblUsers where data.Email.Equals(email) select data;
+                    var sysData = from data in db.TblSysCredentials select data;
+                    if (!user.FirstOrDefault().ValidateEmail)
                     {
-
+                        Email.Email.BuildEmailTemplate(user.FirstOrDefault().UserId, user.FirstOrDefault().Email, sysData.FirstOrDefault().Email, sysData.FirstOrDefault().Password);
+                        return Content("<script language='javascript' type='text/javascript'>alert('Account is not verified!Please verify your account from your email.')</script >");
                     }
                     else
                     {
@@ -77,13 +83,13 @@ namespace Connect2Donate.Controllers
                         }
                         else
                         {
-                            return View("Index");
+                            return Content("<script language='javascript' type='text/javascript'>alert('Email or Password does not match!')</script >");
                         }
                     }
                 }
 
             }
-            return View("Index");
+            return Content("<script language='javascript' type='text/javascript'>alert('You must register first!')</script >");
         }
     }
 }

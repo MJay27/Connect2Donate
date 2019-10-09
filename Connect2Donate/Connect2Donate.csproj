@@ -34,6 +34,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IncludeIisSettings>false</IncludeIisSettings>
+    <IncludeAppPool>true</IncludeAppPool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,11 +130,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DeactivateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RecipientController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
-    <Compile Include="Controllers\TblRequestsController.cs" />
     <Compile Include="Controllers\ResponseController.cs" />
     <Compile Include="Controllers\UserAccountDetailsController.cs" />
     <Compile Include="Controllers\UserRegistrationController.cs" />
@@ -167,6 +169,9 @@
       <DependentUpon>C2DDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TblRespons.cs">
+      <DependentUpon>C2DDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblSysCredential.cs">
       <DependentUpon>C2DDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TblUser.cs">
@@ -238,24 +243,16 @@
     <Content Include="Views\UserRegistration\Index.cshtml" />
     <Content Include="Views\UserRegistration\Confirm.cshtml" />
     <Content Include="Views\UserRegistration\Create.cshtml" />
-    <Content Include="Views\UserDashboard\TestDashBoard.cshtml" />
     <Content Include="Views\Recipient\Edit.cshtml" />
     <Content Include="Views\Recipient\Create.cshtml" />
     <Content Include="Views\Recipient\Index.cshtml" />
     <Content Include="Views\Recipient\EmptyListIndex.cshtml" />
-    <Content Include="Views\TblRequests\Create.cshtml" />
-    <Content Include="Views\TblRequests\Delete.cshtml" />
-    <Content Include="Views\TblRequests\Details.cshtml" />
-    <Content Include="Views\TblRequests\Edit.cshtml" />
-    <Content Include="Views\TblRequests\Index.cshtml" />
     <Content Include="Views\Request\Create.cshtml" />
     <Content Include="Views\Request\Delete.cshtml" />
     <Content Include="Views\Request\Details.cshtml" />
     <Content Include="Views\Request\Edit.cshtml" />
     <Content Include="Views\Request\Index.cshtml" />
-    <Content Include="Views\Response\Create.cshtml" />
     <Content Include="Views\Response\Delete.cshtml" />
-    <Content Include="Views\Response\Details.cshtml" />
     <Content Include="Views\Response\Edit.cshtml" />
     <Content Include="Views\Response\Index.cshtml" />
     <Content Include="Views\UserAccountDetails\Create.cshtml" />
@@ -265,9 +262,12 @@
     <Content Include="Views\UserAccountDetails\Index.cshtml" />
     <Content Include="Views\ResetPassword\ResetPasswordFromEmail.cshtml" />
     <Content Include="Views\ResetPassword\Index.cshtml" />
+    <Content Include="Views\ResetPassword\ForgetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Deactivate\" />
+    <Folder Include="Views\Logout\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -304,6 +304,8 @@
           <DevelopmentServerPort>28871</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:28871/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:28871/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -13,14 +13,14 @@ namespace Connect2Donate.Controllers
 {
     public class ResponseController : Controller
     {
-        private C2DConetxt db = new C2DConetxt();
+        private C2DContext db = new C2DContext();
 
         // GET: TblRespons
         public async Task<ActionResult> Index(string search)
         {
             //var tblResponses = db.TblResponses.Include(t => t.TblRequest).Include(t => t.TblUser);
-            var tblRequests = db.TblRequests.Include(t => t.TblUser).Where(t=> t.Title.Contains(search) || search == null);
-            
+            var tblRequests = db.TblRequests.Include(t => t.TblUser).Where(t => t.Title.Contains(search) || search == null);
+
             return View(await tblRequests.ToListAsync());
         }
         // Overload
@@ -28,25 +28,12 @@ namespace Connect2Donate.Controllers
         {
             string txt = text;
             var tblRequests = Search(text);
-            if(tblRequests!=null)
-                return View("Index",await tblRequests);
+            if (tblRequests != null)
+                return View("Index", await tblRequests);
             return View("Index");
         }
 
-        // GET: TblRespons/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TblRespons tblRespons = await db.TblResponses.FindAsync(id);
-            if (tblRespons == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblRespons);
-        }
+
 
         // GET: TblRespons/Create
         public ActionResult Create()
@@ -88,8 +75,8 @@ namespace Connect2Donate.Controllers
                 return HttpNotFound();
             }
             Session["RequestId"] = id;
-            
-          
+
+
             return View();
         }
 
@@ -112,7 +99,7 @@ namespace Connect2Donate.Controllers
                 }
                 return View();
             }
-            return View("Index",tblRespons);
+            return View("Index", tblRespons);
         }
 
         // GET: TblRespons/Delete/5

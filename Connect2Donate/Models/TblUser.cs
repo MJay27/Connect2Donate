@@ -11,8 +11,7 @@ namespace Connect2Donate.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TblUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,28 +24,13 @@ namespace Connect2Donate.Models
         }
     
         public int UserId { get; set; }
-       
-        [Required(ErrorMessage = "Name is required.")]
-        [StringLength(50, ErrorMessage = "Name is too much long!")]
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Email is required.")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Email is not valid.")]
-        [EmailAddress]
         public string Email { get; set; }
-        
         public bool ValidateEmail { get; set; }
-
-        [Required(ErrorMessage = "User Type is required.")]
         public string UserType { get; set; }
         public string Hash { get; set; }
         public string Salt { get; set; }
-
-        [Required(ErrorMessage = "Password is required.")]
-        [DataType(DataType.Password)]
-        [StringLength(20, ErrorMessage = "Password is too much long!")]
-        public string Password { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblAddress> TblAddresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

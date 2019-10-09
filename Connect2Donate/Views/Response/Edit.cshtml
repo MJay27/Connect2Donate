@@ -1,17 +1,17 @@
 ﻿@model Connect2Donate.Models.TblRespons
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Response";
 }
 
-<h2>Edit</h2>
+<h2>Response</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>TblRespons</h4>
+        <h4>Add Comment</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ResponseId)

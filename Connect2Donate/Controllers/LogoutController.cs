@@ -13,7 +13,7 @@ namespace Connect2Donate.Controllers
         {
             Session["UserId"] = null;
             Session.Abandon();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

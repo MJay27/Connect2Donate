@@ -7,9 +7,6 @@
 <h2>Donation Requests</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<p>
     @using (Html.BeginForm("Index", "Response", FormMethod.Get))
     {
         <input type="text" id="txtSearch" placeholder="Search Requests" name="search"/>
@@ -47,8 +44,8 @@ else
         </td>
        
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.RequestId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.RequestId })
+            @Html.ActionLink("Give Response", "Edit", new { id = item.RequestId })
+            
            
         </td>
     </tr>

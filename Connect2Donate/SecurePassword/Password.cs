@@ -49,7 +49,7 @@ namespace Connect2Donate.SecurePassword
         //Compare Entered Password to Databas
         //Return type Bool
 
-        public static bool ComparePassword(string enteredPassword, byte[] storedHashBytes, byte[] storedSaltBytes, bool matched=true)
+        public static bool ComparePassword(string enteredPassword, byte[] storedHashBytes, byte[] storedSaltBytes, bool matched = true)
         {
             var pbkdf2 = new Rfc2898DeriveBytes(enteredPassword, storedSaltBytes, 10000);
             byte[] hash = pbkdf2.GetBytes(20);

@@ -26,7 +26,7 @@ namespace Connect2Donate.Controllers
                                   select data;
                 return View(await tblRequests.ToListAsync());
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Request/Details/5
@@ -37,13 +37,13 @@ namespace Connect2Donate.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             RequestViewModel viewModel = new RequestViewModel();
-           var request = await db.TblRequests.FindAsync(id);
+            var request = await db.TblRequests.FindAsync(id);
             viewModel.RequestId = request.RequestId;
             viewModel.Title = request.Title;
             viewModel.Description = request.Description;
 
             var list = from data in db.TblResponses where data.RequestId.Equals(request.RequestId) select data;
-           // ViewBag.DonorName = from names in db.TblUsers where names.UserId.Equals();
+            // ViewBag.DonorName = from names in db.TblUsers where names.UserId.Equals();
             viewModel.Responses = await list.ToListAsync();
 
 
@@ -58,7 +58,7 @@ namespace Connect2Donate.Controllers
         // GET: Request/Create
         public ActionResult Create()
         {
-           // ViewBag.UserId = new SelectList(db.TblUsers, "UserId", "Name");
+            // ViewBag.UserId = new SelectList(db.TblUsers, "UserId", "Name");
             return View();
         }
 
@@ -93,7 +93,7 @@ namespace Connect2Donate.Controllers
             {
                 return HttpNotFound();
             }
-           
+
             return View(tblRequest);
         }
 
@@ -110,7 +110,7 @@ namespace Connect2Donate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-           
+
             return View(tblRequest);
         }
 
@@ -134,9 +134,9 @@ namespace Connect2Donate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var responsesList =from responses in db.TblResponses where responses.RequestId.Equals(id) select responses;
+            var responsesList = from responses in db.TblResponses where responses.RequestId.Equals(id) select responses;
             RequestViewModel requestViewModel = new RequestViewModel();
-            requestViewModel.Responses= await responsesList.ToListAsync();
+            requestViewModel.Responses = await responsesList.ToListAsync();
             foreach (TblRespons response in requestViewModel.Responses)
             {
                 db.TblResponses.Remove(response);
